@@ -2,7 +2,6 @@ a = 0
 b = 0
 with open ('text.txt', 'r', encoding='utf-8') as f:
     for line in f:
-        d.append(line)
         line.replace('\ufeff', '')
         line.replace('\n', '')
         c = line.split()
