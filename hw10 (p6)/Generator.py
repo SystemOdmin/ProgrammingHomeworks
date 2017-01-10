@@ -96,7 +96,7 @@ def condition():
     return random.choice(x)
 
 def imperative():
-    a = (no() + imperative_intransitive() + ',' + adjective() + ' ' + noun() + '.').strip(' ')
+    a = (no() + imperative_intransitive() + ', ' + adjective() + ' ' + noun() + '.').strip(' ')
     b = (adjective() + ' ' + noun() + ',' + no() + imperative_intransitive() + '.').strip(' ')
     c = (no() + imperative_intransitive() + ', ' + adjective() + ' ' + noun() + '!').strip(' ')
     d = (adjective() + ' ' + noun() + ',' + no() + imperative_intransitive() + '!').strip(' ')
