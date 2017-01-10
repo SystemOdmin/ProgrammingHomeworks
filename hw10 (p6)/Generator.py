@@ -97,9 +97,9 @@ def condition():
 
 def imperative():
     a = (no() + imperative_intransitive() + ',' + adjective() + ' ' + noun() + '.').strip(' ')
-    b = (adjective() + ' ' + noun() + ',' + no() + imperative_transitive() + '.').strip(' ')
+    b = (adjective() + ' ' + noun() + ',' + no() + imperative_intransitive() + '.').strip(' ')
     c = (no() + imperative_intransitive() + ', ' + adjective() + ' ' + noun() + '!').strip(' ')
-    d = (adjective() + ' ' + noun() + ',' + no() + imperative_transitive() + '!').strip(' ')
+    d = (adjective() + ' ' + noun() + ',' + no() + imperative_intransitive() + '!').strip(' ')
     e = (no() + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', ' + adjective() + ' ' + noun() + '.').strip(' ')
     f = (adjective() + ' ' + noun() + ',' + no() + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.').strip(' ')
     g = (no() + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', ' + adjective() + ' ' + noun() + '!').strip(' ')
