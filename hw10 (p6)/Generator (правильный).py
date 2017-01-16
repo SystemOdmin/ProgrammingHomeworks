@@ -64,19 +64,23 @@ def imperative_transitive():
     return random.choice (a)
 
 def no():
-    a = [' не ', ' ', ' ', ' ', ' ']
+    a = [' не ']
     return random.choice(a)
 
 def statement():
-    a = adjective() + ' ' + noun() + no() + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.'
-    b = adjective() + ' ' + noun() + no() + intransitive() + ' ' + adverb() + '.'
-    x = [a, b]
+    a = adjective() + ' ' + noun() + ' ' + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.'
+    b = adjective() + ' ' + noun() + ' ' + intransitive() + ' ' + adverb() + '.'
+    c = adjective() + ' ' + noun() + ' ' + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '!'
+    d = adjective() + ' ' + noun() + ' ' + intransitive() + ' ' + adverb() + '!'
+    x = [a, b, c, d]
     return random.choice(x)
 
-def exclamation():
+def negation():
     a = adjective() + ' ' + noun() + no() + intransitive() + ' ' + adverb() + '!'
     b = adjective() + ' ' + noun() + no() + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '!'
-    x = [a, b]
+    c = adjective() + ' ' + noun() + no() + intransitive() + ' ' + adverb() + '!'
+    d = adjective() + ' ' + noun() + no() + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '!'
+    x = [a, b, c, d]
     return random.choice(x)
     
 def question():
@@ -88,28 +92,28 @@ def question():
     return random.choice(x)
 
 def condition():
-    a = 'Если ' + adjective() + ' ' + noun() + no() + transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', то и ' + adjective() + ' ' + noun() + no() + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.'
-    b = 'Если ' + adjective() + ' ' + noun() + no() + transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', то и ' + adjective() + ' ' + noun() + no() + intransitive() + ' ' + adverb() + '.'
-    c = 'Если ' + adjective() + ' ' + noun() + no() + intransitive() + ' ' + adverb() + ', то и ' + adjective() + ' ' + noun() + no() + intransitive() + ' ' + adverb() + '.'
-    d = 'Если ' + adjective() + ' ' + noun() + no() + intransitive() + ' ' + adverb() + ', то и ' + adjective() + ' ' + noun() + no() + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.'
+    a = 'Если ' + adjective() + ' ' + noun() + ' ' + transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', то и ' + adjective() + ' ' + noun() + ' ' + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.'
+    b = 'Если ' + adjective() + ' ' + noun() + ' ' + transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', то и ' + adjective() + ' ' + noun() + ' ' + intransitive() + ' ' + adverb() + '.'
+    c = 'Если ' + adjective() + ' ' + noun() + ' ' + intransitive() + ' ' + adverb() + ', то и ' + adjective() + ' ' + noun() + ' ' + intransitive() + ' ' + adverb() + '.'
+    d = 'Если ' + adjective() + ' ' + noun() + ' ' + intransitive() + ' ' + adverb() + ', то и ' + adjective() + ' ' + noun() + ' ' + transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.'
     x = [a, b, c, d]
     return random.choice(x)
 
 def imperative():
-    a = (no() + imperative_intransitive() + ',' + adjective() + ' ' + noun() + '.').strip(' ')
-    b = (adjective() + ' ' + noun() + ',' + no() + imperative_intransitive() + '.').strip(' ')
-    c = (no() + imperative_intransitive() + ', ' + adjective() + ' ' + noun() + '!').strip(' ')
-    d = (adjective() + ' ' + noun() + ',' + no() + imperative_intransitive() + '!').strip(' ')
-    e = (no() + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', ' + adjective() + ' ' + noun() + '.').strip(' ')
-    f = (adjective() + ' ' + noun() + ',' + no() + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.').strip(' ')
-    g = (no() + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', ' + adjective() + ' ' + noun() + '!').strip(' ')
-    h = (adjective() + ' ' + noun() + ',' + no() + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + '!').strip(' ')
+    a = imperative_intransitive() + ', ' + adjective() + ' ' + noun() + '.'
+    b = adjective() + ' ' + noun() + ', ' + imperative_intransitive() + '.'
+    c = imperative_intransitive() + ', ' + adjective() + ' ' + noun() + '!'
+    d = adjective() + ' ' + noun() + ', ' + imperative_intransitive() + '!'
+    e = imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', ' + adjective() + ' ' + noun() + '.'
+    f = adjective() + ' ' + noun() + ', ' + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + '.'
+    g = imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + ', ' + adjective() + ' ' + noun() + '!'
+    h = adjective() + ' ' + noun() + ', ' + imperative_transitive() + ' ' + object_adjective() + ' ' + direct_object() + '!'
     x = [a, b, c, d, e, f, g, h]
     return random.choice(x)
 
 def generate():
     a = statement().capitalize()
-    b = exclamation().capitalize()
+    b = negation().capitalize()
     c = question().capitalize()
     d = condition()
     e = imperative().capitalize()
