@@ -13,18 +13,18 @@ import time
 ##        os.makedirs(str(root) + '/' + str(folder3))
     
 def standart_date(a):
-    standart_date = re.sub(' Январь ', '.01.', a)
-    standart_date = re.sub(' Февраль ', '.02.', standart_date)
-    standart_date = re.sub(' Март ', '.03.', standart_date)
-    standart_date = re.sub(' Апрель ', '.04.', standart_date)
-    standart_date = re.sub(' Май ', '.05.', standart_date)
-    standart_date = re.sub(' Июнь ', '.06.', standart_date)
-    standart_date = re.sub(' Июль ', '.07.', standart_date)
-    standart_date = re.sub(' Август ', '.08.', standart_date)
-    standart_date = re.sub(' Сентябрь ', '.09.', standart_date)
-    standart_date = re.sub(' Октябрь ', '.10.', standart_date)
-    standart_date = re.sub(' Ноябрь ', '.11.', standart_date)
-    standart_date = re.sub(' Декабрь ', '.12.', standart_date)
+    standart_date = a.replace(' Январь ', '.01.')
+    standart_date = standart_date.replace(' Февраль ', '.02.')
+    standart_date = standart_date.replace(' Март ', '.03.')
+    standart_date = standart_date.replace(' Апрель ', '.04.')
+    standart_date = standart_date.replace(' Май ', '.05.')
+    standart_date = standart_date.replace(' Июнь ', '.06.')
+    standart_date = standart_date.replace(' Июль ', '.07.')
+    standart_date = standart_date.replace(' Август ', '.08.')
+    standart_date = standart_date.replace(' Сентябрь ', '.09.')
+    standart_date = standart_date.replace(' Октябрь ', '.10.')
+    standart_date = standart_date.replace(' Ноябрь ', '.11.')
+    standart_date = standart_date.replace(' Декабрь ', '.12.')
     standart_date = re.sub('[йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,\\n\\t ]', '', standart_date)
     return standart_date
 
@@ -32,8 +32,8 @@ def cleantext(text):
     cleantext = re.sub('\\n<.*?>', '', text) # -- опциональное удаление надписей на картинках, которые в основном пустые
     cleantext = cleantext.lstrip('\n\t ')
     cleantext = re.sub('<.*?>', '', cleantext) 
-    cleantext = re.sub('\n&nbsp;', '', cleantext) # -- опциональное удаление пустых строк, состоящих из неразрывных пробелов
-    cleantext = re.sub('&nbsp;', ' ', cleantext) # -- опциональная замена неразрывных пробелов на обычные, на всякий случай
+    cleantext = cleantext.replace('\n&nbsp;', '') # -- опциональное удаление пустых строк, состоящих из неразрывных пробелов
+    cleantext = cleantext.replace('&nbsp;', ' ',) # -- опциональная замена неразрывных пробелов на обычные, на всякий случай
     return cleantext
 
 def create_metadata(file):
@@ -53,7 +53,14 @@ def fixate_metadata(file, folder):
     
         
 def download_page(url, pagenumber_first, pagenumber_last):
-    create_metadata('metadata.csv')
+    if os.path.exists('metadata.csv'):
+        with open ('metadata.csv', 'r', encoding='utf-8') as f:
+            lastline = f.readlines()[-1]
+            pagenumber_exist = int(''.join(re.findall('volzhskaya_pravda/plain/(.*?).txt', lastline)))
+            if pagenumber_exist > pagenumber_first:
+                pagenumber_first = pagenumber_exist + 1
+    else:
+        create_metadata('metadata.csv')
     for i in range(pagenumber_first, pagenumber_last):
         try:
             req = urllib.request.Request(url + str(i), headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'})
@@ -96,8 +103,8 @@ def download_page(url, pagenumber_first, pagenumber_last):
         except:
             print('Error occured on page ' + url + str(i) + ': HTTP 404 - Not Found')
     fixate_metadata('metadata.csv', 'volzhskaya_pravda')
-        
-    
+
+
 download_page('http://gazeta-vp.ru/news/item/', 1, 5078)
 download_page('http://gazeta-vp.ru/news/item/', 5080, 6055)
 download_page('http://gazeta-vp.ru/news/item/', 6056, 6073)
