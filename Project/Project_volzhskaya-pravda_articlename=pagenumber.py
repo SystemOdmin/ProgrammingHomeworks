@@ -36,23 +36,25 @@ def cleantext(text):
     cleantext = cleantext.replace('&nbsp;', ' ',) # -- опциональная замена неразрывных пробелов на обычные, на всякий случай
     return cleantext
 
-def create_metadata(file):
-    with open (file, 'w', encoding='utf-8') as f:
+def create_metadata(file, folder=''): # -- параметр folder для фунцкции в текущем виде не нужен, но я его оставлю, чтобы не забыть идею
+    with open (folder + file, 'w', encoding='utf-8') as f:
         metadata = ('path,author,sex,birthday,header,created,sphere,genre_fi,type,topic,chronotop,style,audience_age,audience_level,audience_size,source,publication,publisher,publ_year,medium,country,region,language\n')
         f.write(metadata)
     
-def add_metadata(file, path, author, header, created, topic, source, publ_year):    
+def add_metadata(file, path, author, header, created, topic, source, publ_year, folder=''): # -- параметр folder для фунцкции в текущем виде не нужен, но я его оставлю, чтобы не забыть идею
     with open (file,'a', encoding='utf-8') as f:
         metadata = (path + ',' + author + ',,,' + header + ',' + created +',публицистика,,,' + topic + ',,нейтральный,н-возраст,н-уровень,городская,' + source + ',Волжская правда,publisher,' + publ_year + ',газета,Россия,республика Марий Эл,ru\n')
         f.write(metadata)
-
-def fixate_metadata(file, folder):
-    if os.path.exists(folder + '/' + file):
-        os.remove(folder + '/' + file)
-    shutil.move(file, folder)
+##
+##def fixate_metadata(file, folder):
+##    if os.path.exists(folder + '/' + file):
+##        os.remove(folder + '/' + file)
+##    shutil.move(file, folder)
     
         
 def download_page(url, pagenumber_first, pagenumber_last):
+    if os.path.exists('volzhskaya_pravda/metadata.csv'):
+        shutil.move('volzhskaya_pravda/metadata.csv', './')
     if os.path.exists('metadata.csv'):
         with open ('metadata.csv', 'r', encoding='utf-8') as f:
             lastline = f.readlines()[-1]
@@ -60,7 +62,7 @@ def download_page(url, pagenumber_first, pagenumber_last):
             if pagenumber_exist > pagenumber_first:
                 pagenumber_first = pagenumber_exist + 1
     else:
-        create_metadata('metadata.csv')
+        create_metadata('metadata.csv', 'volzhskaya_pravda')
     for i in range(pagenumber_first, pagenumber_last):
         try:
             req = urllib.request.Request(url + str(i), headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'})
@@ -102,9 +104,8 @@ def download_page(url, pagenumber_first, pagenumber_last):
                 print('Succesfully downloaded page ' + url + str(i))
         except:
             print('Error occured on page ' + url + str(i) + ': HTTP 404 - Not Found')
-    fixate_metadata('metadata.csv', 'volzhskaya_pravda')
-
-
+    shutil.move('metadata.csv', 'volzhskaya_pravda/metadata.csv')
+    
 download_page('http://gazeta-vp.ru/news/item/', 1, 5078)
 download_page('http://gazeta-vp.ru/news/item/', 5080, 6055)
 download_page('http://gazeta-vp.ru/news/item/', 6056, 6073)
@@ -112,4 +113,5 @@ download_page('http://gazeta-vp.ru/news/item/', 6223, 13850)
 ## После первого тестового запуска оказалось, что некоторые страницы дают перенаправление на другую страницу, требуя логин и пароль. 
 ## Программа, обрабатывая их, выдает пустые файлы (не считая @au, @ti, @da, @topic, @url)
 ## Поскольку уже было известно, какие именно это страницы, как они себя ведут, и как выглядят, удалить их вручную мне показалось проще, чеи писать отдельный код для их обработки
-                           
+## Зато это помогло придумать алгоритм, по которому программа продолжает работу при запуске после сбоя, а не обрабатывает страницы заново с самой первой
+## И в принципе проработать систему с многократным запуском функции
